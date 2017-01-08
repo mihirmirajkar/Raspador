@@ -1,1 +1,2 @@
-# sumpy
+# Sumpy - a web crawler 
+
