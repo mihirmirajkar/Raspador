@@ -21,8 +21,9 @@ def linkConstruction(parent,urls):
             except Exception:
                 urls[i] = parent + url
         else:
-            if url[:4] != 'https:':
-                url = parent + '/' + url
+            if url[:4] != 'http':
+                urls[i] = parent + '/' + url
+                
                 
     return urls
 
@@ -34,7 +35,8 @@ def update_struct(url_dict,urls,url_queue):
     return url_dict, url_queue
 
 def crawler():
-    root_url = "https://www.cratersandfreightersraleigh.com"
+    domainName="https://www.ise.ncsu.edu"
+    root_url = "https://www.ise.ncsu.edu"
     counter = 0
     start_time = time.time() * 1000
     url_dict = {root_url:0}
@@ -46,12 +48,19 @@ def crawler():
     urls = linkConstruction(root_url, urls)
     url_dict,url_queue = update_struct(url_dict, urls, url_queue)
     url_dict[root_url] = 1
-    #print(urls)
     deleted = list()
     print(counter, root_url)
     counter += 1
     while len(url_queue) > 0:
         current_url = url_queue[0]
+        try:
+            domain_index = current_url.index('/',8)
+            parent = current_url[:domain_index]
+        except Exception:
+            parent=current_url
+        if(parent!=domainName):
+            del url_queue[0]
+            continue
         print(counter, current_url)
         try:
             page_content = str(urllib.request.urlopen(current_url).read())
@@ -66,8 +75,8 @@ def crawler():
         deleted.append(url_queue[0])
         del url_queue[0]
         counter += 1      
-        if counter == 100: #Counter changes here
-            break
+        #if counter == 100: #Counter changes here
+        #    break
     end_time = time.time() * 1000
     print("Time", int(end_time)-int(start_time), "ms")
     print("Dict size", len(url_dict))
