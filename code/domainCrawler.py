@@ -35,8 +35,8 @@ def update_struct(url_dict,urls,url_queue):
     return url_dict, url_queue
 
 def crawler():
-    domainName="https://www.ise.ncsu.edu"
-    root_url = "https://www.ise.ncsu.edu"
+    domainName="http://www.spce.ac.in"
+    root_url = "http://www.spce.ac.in"
     counter = 0
     start_time = time.time() * 1000
     url_dict = {root_url:0}
@@ -82,6 +82,10 @@ def crawler():
     print("Dict size", len(url_dict))
     print("Queue size", len(url_queue))
     print("Deleted", len(deleted), deleted)
-        
+    
+    dict_file = open('dict.txt', 'w')
+    for e in url_dict:
+        dict_file.write(e + '\n') 
+    dict_file.close()
 crawler()
 #print(str(urllib.request.urlopen("https://www.yahoo.com/politics/").read()))
