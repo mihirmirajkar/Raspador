@@ -2,6 +2,10 @@ import urllib.request
 import re
 import time
 from threading import Thread
+from collections import deque
+TIMEOUT=20
+RANGE=300
+DOMAINNAME="https://www.csc.ncsu.edu"
 
 def linkConstruction(parent,urls):
     for i,url in enumerate(urls):
@@ -32,7 +36,7 @@ def search_links(current_url,threadUrls):
     urls=list()
     page_content=""
     try:
-        page_content = str(urllib.request.urlopen(current_url).read())
+        page_content = str(urllib.request.urlopen(current_url,timeout=TIMEOUT).read())
     except Exception as e:
         return
     urls = re.findall('href=[\'"]?([^\'" >]+)',page_content)
@@ -67,13 +71,13 @@ def reduce_links(threadUrls):
     return urls    
 
 def crawler():
-    domainName="https://www.ise.ncsu.edu"
-    root_url = "https://www.ise.ncsu.edu"
+    domainName=DOMAINNAME
+    root_url = DOMAINNAME
     counter = 0
     start_time = time.time() * 1000
     url_dict = {root_url:0}
-    url_queue = list()
-    page_content = str(urllib.request.urlopen(root_url).read())
+    url_queue = deque()
+    page_content = str(urllib.request.urlopen(root_url,timeout=TIMEOUT).read())
     #print(page_content)
     urls = re.findall('href=[\'"]?([^\'" >]+)',page_content)
     #print(urls)
@@ -84,7 +88,7 @@ def crawler():
     print(counter, root_url)
     counter += 1
     while len(url_queue) > 0:
-        Range=50        #This is the number of threads you want to create
+        Range=RANGE        #This is the number of threads you want to create
         if(len(url_queue)<Range):
             Range=len(url_queue)
         threads=list()
@@ -92,7 +96,7 @@ def crawler():
         #print("Range",Range)
         for i in range(Range):
             try:
-                current_url = url_queue[i]
+                current_url = url_queue.popleft()
             except:
                 break
             try:
@@ -101,14 +105,12 @@ def crawler():
             except Exception:
                 parent=current_url
             if(parent!=domainName):
-                del url_queue[i]
                 Range+=1
                 continue
             threads.append(Thread(target=search_links, args=(current_url,threadUrls)))
             print(counter, current_url)
             counter+=1
-            deleted.append(url_queue[0])
-        url_queue=url_queue[Range:]
+            deleted.append(current_url)
         try:
             for x in threads:
                 x.start()
@@ -127,13 +129,19 @@ def crawler():
         #if counter > 100: #Counter changes here
         #    break
     end_time = time.time() * 1000
+    dict_file = open('dict_thread2.txt', 'w')
+    dict_file.write("Time"+ str(int(end_time)-int(start_time))+"ms")
+    dict_file.write("Dict size"+str(len(url_dict)))
+    dict_file.write("Queue size"+str(len(url_queue)))
+    dict_file.write("Deleted size"+str(len(deleted)))
+    
     print("Time", int(end_time)-int(start_time), "ms")
     print("Dict size", len(url_dict))
     print("Queue size", len(url_queue))
-    print("Deleted", len(deleted), deleted)
-    dict_file = open('dict_thread.txt', 'w')
+    print("Deleted size", len(deleted))
+    
     for e in url_dict:
-        dict_file.write(e + '\n') 
+        dict_file.write(e + '\n')
     dict_file.close()
         
 crawler()

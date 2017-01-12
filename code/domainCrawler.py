@@ -35,8 +35,8 @@ def update_struct(url_dict,urls,url_queue):
     return url_dict, url_queue
 
 def crawler():
-    domainName="http://www.spce.ac.in"
-    root_url = "http://www.spce.ac.in"
+    domainName="https://www.csc.ncsu.edu"
+    root_url = "https://www.csc.ncsu.edu"
     counter = 0
     start_time = time.time() * 1000
     url_dict = {root_url:0}
