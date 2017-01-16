@@ -67,8 +67,8 @@ def reduce_links(threadUrls):
     return urls    
 
 def crawler():
-    domainName="https://www.ise.ncsu.edu"
-    root_url = "https://www.ise.ncsu.edu"
+    domainName="https://www.mctrgit.ac.in"
+    root_url = "https://www.mctrgit.ac.in"
     counter = 0
     start_time = time.time() * 1000
     url_dict = {root_url:0}
@@ -84,7 +84,7 @@ def crawler():
     print(counter, root_url)
     counter += 1
     while len(url_queue) > 0:
-        Range=50        #This is the number of threads you want to create
+        Range=100        #This is the number of threads you want to create
         if(len(url_queue)<Range):
             Range=len(url_queue)
         threads=list()
@@ -105,7 +105,7 @@ def crawler():
                 Range+=1
                 continue
             threads.append(Thread(target=search_links, args=(current_url,threadUrls)))
-            print(counter, current_url)
+            #print(counter, current_url)
             counter+=1
             deleted.append(url_queue[0])
         url_queue=url_queue[Range:]

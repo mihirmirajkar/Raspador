@@ -79,7 +79,7 @@ def reduce_links(threadUrls):
 
 def crawler():
     domainName=DOMAINNAME
-    root_url = "https://en.wikipedia.org/wiki/Sun"
+    root_url = DOMAINNAME
     start_time = time.time() * 1000
     url_dict = {root_url:0}
     url_queue = deque()

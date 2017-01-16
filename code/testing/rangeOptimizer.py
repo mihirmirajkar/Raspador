@@ -49,7 +49,7 @@ def search_links(current_url,threadUrls):
     urls = linkConstruction(current_url, urls)
     #print("Inside",urls)
     threadUrls.append(urls)
-    print(counter,current_url)
+    #print(counter,current_url)
     counter+=1
     #print("ThreadUrls",threadUrls)
 
@@ -80,7 +80,7 @@ def reduce_links(threadUrls):
 
 def crawler():
     domainName=DOMAINNAME
-    root_url = "https://en.wikipedia.org/wiki/Sun"
+    root_url = DOMAINNAME
     start_time = time.time() * 1000
     url_dict = {root_url:0}
     url_queue = deque()
@@ -170,9 +170,9 @@ def trial():
         if i==1:
             i=2
         elif i<50:
-            i+=2
-        elif i<100:
             i+=4
+        elif i<100:
+            i+=8
         else:
             i+=100
 
@@ -181,7 +181,7 @@ def main():
     #dict_file.close()
     global List
     new_list = []
-    for _ in range(20):
+    for _ in range(5):
         trial()
         List.sort(key=lambda a:a[1])
         new_list.append(List)
