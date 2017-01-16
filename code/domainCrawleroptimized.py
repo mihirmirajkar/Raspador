@@ -5,7 +5,7 @@ from threading import Thread
 from collections import deque
 TIMEOUT=15
 RANGE=1000
-DOMAINNAME="https://en.wikipedia.org"
+DOMAINNAME="https://www.mctrgit.ac.in"
 counter = 0
 
 def linkConstruction(parent,urls):
@@ -46,6 +46,7 @@ def search_links(current_url,threadUrls):
     urls = re.findall('href=[\'"]?([^\'" >]+)',page_content)
     urls = linkConstruction(current_url, urls)
     #print("Inside",urls)
+    print("hello")
     threadUrls.append(urls)
     print(counter,current_url)
     counter+=1
@@ -78,7 +79,7 @@ def reduce_links(threadUrls):
 
 def crawler():
     domainName=DOMAINNAME
-    root_url = "https://en.wikipedia.org/wiki/Sun"
+    root_url = DOMAINNAME
     start_time = time.time() * 1000
     url_dict = {root_url:0}
     url_queue = deque()
