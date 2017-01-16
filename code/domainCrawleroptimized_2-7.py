@@ -1,3 +1,4 @@
+# This is to be run on python 2 and not python 3
 import requests
 import re
 import time

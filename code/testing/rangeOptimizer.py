@@ -2,13 +2,14 @@ import urllib.request
 from bs4 import BeautifulSoup
 import re
 import time
+import sys
 from threading import Thread
 from collections import deque
 TIMEOUT=15
 RANGE=1000
 DOMAINNAME="https://www.cratersandfreightersraleigh.com"
 counter = 0
-
+List=list()
 def linkConstruction(parent,urls):
     for i,url in enumerate(urls):
         if url[0]=='#':
@@ -138,27 +139,30 @@ def crawler():
         if counter > 5000: #Counter changes here
             break
     end_time = time.time() * 1000
-    dict_file = open('RangeTesting.txt', 'a')
-    dict_file.write("Range:"+str(RANGE))
-    dict_file.write("Time:"+ str(int(end_time)-int(start_time))+"ms")
-    dict_file.write("Dict size:"+str(len(url_dict)))
-    dict_file.write("Queue size:"+str(len(url_queue)))
-    dict_file.write("\n\n--------------------\n\n")
+    total_time=int(end_time)-int(start_time)
+    #dict_file = open('RangeTesting.txt', 'a')
+    #dict_file.write("Range:"+str(RANGE))
+    #dict_file.write("Time:"+ str(total_time)+"ms")
+    #dict_file.write("Dict size:"+str(len(url_dict)))
+    #dict_file.write("Queue size:"+str(len(url_queue)))
+    #dict_file.write("\n\n--------------------\n\n")
     #dict_file.write("Deleted size"+str(len(deleted)))
+    ll=list()
+    ll.append(RANGE)
+    ll.append(total_time)
+    List.append(ll)
     print("\n\n--------------------\n\n")
     print("Range",str(RANGE))
-    print("Time", int(end_time)-int(start_time), "ms")
-    print("Dict size", len(url_dict))
-    print("Queue size", len(url_queue))
+    print("\nTime", int(end_time)-int(start_time), "ms")
+    #print("Dict size", len(url_dict))
+    #print("Queue size", len(url_queue))
     #print("Deleted size", len(deleted))
     
     #for e in url_dict:
     #    dict_file.write(e + '\n')
-    dict_file.close()
+    #dict_file.close()
 def trial():
     i=1
-    dict_file = open('RangeTesting.txt', 'w')
-    dict_file.close()
     while(i<=2000):
         global RANGE
         RANGE=i
@@ -170,10 +174,26 @@ def trial():
         elif i<100:
             i+=4
         else:
-            i+=200
-            
+            i+=100
 
-trial()
+def main():
+    #dict_file = open('RangeTesting.txt', 'w')
+    #dict_file.close()
+    
+    for _ in range(5):
+        trial()
+    List.sort(key=lambda a:a[1])
+    print("############################################")
+    sys.stdout = open('RangeTesting.txt', 'a')
+    print("############################################")
+    print("Domain Name",DOMAINNAME)
+    print("Range","\tTime")
+    print("----------------")
+    for i in List:
+        print(i[0],"\t",i[1],"\n")   
+    
+    
+main()    
         
     
         
