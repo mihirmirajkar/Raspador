@@ -1,0 +1,52 @@
+Range:1Time:665msDict size:2088Queue size:0
+
+--------------------
+
+Range:2Time:384msDict size:2088Queue size:0
+
+--------------------
+
+Range:4Time:347msDict size:2088Queue size:0
+
+--------------------
+
+Range:6Time:339msDict size:2088Queue size:0
+
+--------------------
+
+Range:8Time:335msDict size:2088Queue size:0
+
+--------------------
+
+Range:10Time:353msDict size:2088Queue size:0
+
+--------------------
+
+Range:12Time:334msDict size:2088Queue size:0
+
+--------------------
+
+Range:14Time:344msDict size:2088Queue size:0
+
+--------------------
+
+Range:16Time:342msDict size:2088Queue size:0
+
+--------------------
+
+Range:18Time:352msDict size:2088Queue size:0
+
+--------------------
+
+Range:20Time:350msDict size:2088Queue size:0
+
+--------------------
+
+Range:22Time:351msDict size:2088Queue size:0
+
+--------------------
+
+Range:24Time:333msDict size:2088Queue size:0
+
+--------------------
+
