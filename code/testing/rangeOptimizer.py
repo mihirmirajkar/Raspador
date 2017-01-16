@@ -7,7 +7,7 @@ from threading import Thread
 from collections import deque
 TIMEOUT=15
 RANGE=1000
-DOMAINNAME="https://www.cratersandfreightersraleigh.com"
+DOMAINNAME="https://www.mctrgit.ac.in"
 counter = 0
 List=list()
 def linkConstruction(parent,urls):
@@ -151,10 +151,10 @@ def crawler():
     ll.append(RANGE)
     ll.append(total_time)
     List.append(ll)
-    print("\n\n--------------------\n\n")
+    # print("\n\n--------------------\n\n")
     print("Range",str(RANGE))
-    print("\nTime", int(end_time)-int(start_time), "ms")
-    #print("Dict size", len(url_dict))
+    # print("\nTime", int(end_time)-int(start_time), "ms")
+    # #print("Dict size", len(url_dict))
     #print("Queue size", len(url_queue))
     #print("Deleted size", len(deleted))
     
@@ -179,18 +179,64 @@ def trial():
 def main():
     #dict_file = open('RangeTesting.txt', 'w')
     #dict_file.close()
-    
-    for _ in range(5):
+    global List
+    new_list = []
+    for _ in range(20):
         trial()
-    List.sort(key=lambda a:a[1])
+        List.sort(key=lambda a:a[1])
+        new_list.append(List)
+        List = []
+
+    #List.sort(key=lambda a:a[1])
     print("############################################")
     sys.stdout = open('RangeTesting.txt', 'a')
     print("############################################")
     print("Domain Name",DOMAINNAME)
     print("Range","\tTime")
     print("----------------")
+    for k, e in enumerate(new_list):
+        print(k)
+        for i in e:
+            print(i[0],"\t",i[1],"\n")   
+
+    List = []
+    for e in new_list:
+        for el in e:
+            List.append(el)
+
+    List.sort(key = lambda x: x[1])
+    print ("#####################CUMMULATIVE#############################")
+    fullAvg=0
     for i in List:
-        print(i[0],"\t",i[1],"\n")   
+        fullAvg+=i[1]
+        print(i[0],"\t",i[1],"\n")  
+    fullAvg/=len(List)
+    print("Average time",fullAvg)
+    List.sort()
+    avg_list=list()
+    temp=list()
+    count = 0
+    count1=0
+    sum=0
+    for element in List:
+        if(element[1]<fullAvg+1000):
+            count1+=1
+            sum+=element[1]
+        temp.append(element[1])
+        if count==len(new_list) - 1:
+            avg=sum/count1
+            avg_list.append([element[0],avg,temp])
+            temp=[]
+            sum = 0
+            count=0
+            count1=0
+            continue
+        count+=1
+    #print(avg_list)
+
+    avg_list.sort(key = lambda x: x[1])    
+    for each in avg_list:
+        print(each)
     
     
 main()    
